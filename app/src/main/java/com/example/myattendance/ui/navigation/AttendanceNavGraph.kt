@@ -18,26 +18,33 @@ enum class AttendanceScreen(@StringRes val title: Int){
     ClassEntryDestination(R.string.add_class),
     ClassEditDestination(R.string.edit_class),
 
+
     AllClassesDestination(R.string.all_class),
     HistoryDestination(R.string.history)
-
 
 }
 @Composable
 fun AttendanceNavHost(navController: NavHostController ,  modifier: Modifier = Modifier,){
 
 
-    NavHost(navController = navController,
-          startDestination = AttendanceScreen.HomeDestination.name ,
-          modifier = modifier ){
+    NavHost( navController = navController,
+             startDestination = AttendanceScreen.HomeDestination.name ,
+             modifier = modifier ){
 
 
-        composable(route = AttendanceScreen.HomeDestination.name ){
+            composable(route = AttendanceScreen.HomeDestination.name ){
+                HomeScreen()
+            }
 
-            HomeScreen()
+            composable(route = AttendanceScreen.ClassEntryDestination.name ){
+                TODO()
+            }
 
 
-        }
+            composable(route = AttendanceScreen.ClassDetailDestination.name ){
+                TODO()
+            }
+
 
 
     }
