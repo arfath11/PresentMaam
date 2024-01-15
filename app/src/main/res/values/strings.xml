@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">My Attendance</string>
+    <string name="back_button">Back Button</string>
+    <string name="home_screen">Today</string>
+    <string name="add_class">Add Class</string>
+    <string name="edit_class">Edit Class</string>
+    <string name="all_class">All Classes</string>
+    <string name="history">History</string>
+    <string name="class_detail">Info</string>
+
+
+
+
+
 </resources>
