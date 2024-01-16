@@ -7,9 +7,9 @@
     <string name="all_class">All Classes</string>
     <string name="history">History</string>
     <string name="class_detail">Info</string>
-
-
-
+    <string name="home_bar">home</string>
+    <string name="all_Class">Summary</string>
+    <string name="barhistory">history</string>
 
 
 </resources>
