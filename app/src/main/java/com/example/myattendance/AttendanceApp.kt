@@ -31,15 +31,9 @@ import com.example.myattendance.ui.navigation.TopLevelDestination
 import java.security.AccessController
 
 @Composable
-fun AttendanceApp(navController: NavHostController = rememberNavController() ){
-
+fun AttendanceApp(navController: NavHostController = rememberNavController()) {
     AttendanceNavHost(navController)
-
-
-
 }
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceTopAppBar(
@@ -67,12 +61,11 @@ fun AttendanceTopAppBar(
 }
 
 
-
 @Composable
- fun MyBottomBar(
-   onNavigateToTLDClick: (TopLevelDestination) -> Unit,
-  //  currentDestination: NavDestination?,
-  //  analyticsHelper: AnalyticsHelper
+fun MyBottomBar(
+    onNavigateToTLDClick: (TopLevelDestination) -> Unit,
+    //  currentDestination: NavDestination?,
+    //  analyticsHelper: AnalyticsHelper
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
@@ -83,21 +76,15 @@ fun AttendanceTopAppBar(
                     WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
                 )
             ),
-          //  tonalElevation = 0.dp
+            //  tonalElevation = 0.dp
         ) {
 
             TopLevelDestination.values().forEach { destination ->
-
-
-
-
-               val selected =   false //   currentDestination?.hierarchy?.any { it.route == destination.route } == true
-
+                val selected = false       //   currentDestination?.hierarchy?.any { it.route == destination.route } == true
                 NavigationBarItem(
-                    selected =   selected,
-                    onClick =
-                    { onNavigateToTLDClick(destination)
-
+                    selected = selected,
+                    onClick = {
+                        onNavigateToTLDClick(destination)
                     },
                     icon = {
                         Icon(

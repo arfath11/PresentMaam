@@ -22,22 +22,11 @@ import com.example.myattendance.ui.home.HomeScreen
 import com.example.myattendance.ui.home.Summary
 
 
-enum class AttendanceScreen(@StringRes val title: Int){
-
-    HomeDestination(R.string.home_screen),
+enum class AttendanceScreen(@StringRes val title: Int) {
     ClassDetailDestination(R.string.class_detail),
     ClassEntryDestination(R.string.add_class),
-
     ClassEditDestination(R.string.edit_class),
-
-
-    AllClassesDestination(R.string.all_class),
-    HistoryDestination(R.string.history)
-
 }
-
-
-
 enum class TopLevelDestination(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
@@ -65,30 +54,26 @@ enum class TopLevelDestination(
 }
 
 
-
-
 @Composable
-fun AttendanceNavHost(navController: NavHostController ,  modifier: Modifier = Modifier,){
+fun AttendanceNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
 
-    NavHost( navController = navController,
-             startDestination = AttendanceScreen.HomeDestination.name ,
-             modifier = modifier ){
+    NavHost(
+        navController = navController,
+        startDestination = TopLevelDestination.HomeDestination.name,
+        modifier = modifier
+    ) {
+        composable(route = TopLevelDestination.HomeDestination.name) {
+            HomeScreen(
+                onNavigateToTLDClick = {
+                    navController.navigate(it.name)
+                },
 
+                title = TopLevelDestination.HomeDestination.titleTextId
+            )
+        }
+        composable(route = TopLevelDestination.AllClassesDestination.name) {
 
-            composable(route = TopLevelDestination.HomeDestination.name ){
-                HomeScreen(
-                    onNavigateToTLDClick = {
-                        navController.navigate(it.name)
-                    },
-
-                    title = TopLevelDestination.HomeDestination.titleTextId
-                )
-            }
-
-
-        composable(route = TopLevelDestination.AllClassesDestination.name ){
-
-            Summary( title = TopLevelDestination.AllClassesDestination.titleTextId ,
+            Summary(title = TopLevelDestination.AllClassesDestination.titleTextId,
                 onNavigateToTLDClick = {
                     navController.navigate(it.name)
                 }
@@ -96,30 +81,21 @@ fun AttendanceNavHost(navController: NavHostController ,  modifier: Modifier = M
 
         }
 
-
-        composable(route = TopLevelDestination.HistoryDestination.name ){
-            History( title = TopLevelDestination.HistoryDestination.titleTextId ,
+        composable(route = TopLevelDestination.HistoryDestination.name) {
+            History(title = TopLevelDestination.HistoryDestination.titleTextId,
                 onNavigateToTLDClick = {
                     navController.navigate(it.name)
                 }
             )
         }
 
-            composable(route = AttendanceScreen.ClassEntryDestination.name ){
-                TODO()
-            }
+        composable(route = AttendanceScreen.ClassEntryDestination.name) {
+            TODO()
+        }
 
 
-            composable(route = AttendanceScreen.ClassDetailDestination.name ){
-                TODO()
-            }
-
-
-
+        composable(route = AttendanceScreen.ClassDetailDestination.name) {
+            TODO()
+        }
     }
-
-
-
-
-
 }

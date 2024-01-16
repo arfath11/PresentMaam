@@ -26,12 +26,10 @@ fun HomeScreen(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
                modifier: Modifier = Modifier,
                @StringRes title : Int ){
 
-
-    // Need to experiment with this scrool behaviour
+    // Need to experiment with this Scroll behaviour
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
     Scaffold(
-        //need to be experimented with this scrool behavoiur
+        //need to be experimented with this Scroll behaviour
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             AttendanceTopAppBar(
@@ -42,12 +40,8 @@ fun HomeScreen(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
         },
 
         bottomBar =  {
-
             MyBottomBar(onNavigateToTLDClick =  { onNavigateToTLDClick(it) })
-        }
-
-
-        ) {
+        }) {
 
 
         Text(text = "arfath" , modifier = modifier.padding(it).padding(40.dp))
