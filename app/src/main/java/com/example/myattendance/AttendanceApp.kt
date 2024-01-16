@@ -70,7 +70,7 @@ fun AttendanceTopAppBar(
 
 @Composable
  fun MyBottomBar(
-  //  onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
+   onNavigateToTLDClick: (TopLevelDestination) -> Unit,
   //  currentDestination: NavDestination?,
   //  analyticsHelper: AnalyticsHelper
 ) {
@@ -96,7 +96,7 @@ fun AttendanceTopAppBar(
                 NavigationBarItem(
                     selected =   selected,
                     onClick =
-                    {
+                    { onNavigateToTLDClick(destination)
 
                     },
                     icon = {

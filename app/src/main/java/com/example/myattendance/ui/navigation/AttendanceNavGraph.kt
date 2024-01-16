@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,7 +17,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myattendance.R
+import com.example.myattendance.ui.home.History
 import com.example.myattendance.ui.home.HomeScreen
+import com.example.myattendance.ui.home.Summary
 
 
 enum class AttendanceScreen(@StringRes val title: Int){
@@ -39,7 +42,7 @@ enum class TopLevelDestination(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val iconTextId: Int,
-    val titleTextId: Int,
+    @StringRes val titleTextId: Int,
 ) {
     HomeDestination(
         selectedIcon = Icons.Filled.Home,
@@ -73,8 +76,34 @@ fun AttendanceNavHost(navController: NavHostController ,  modifier: Modifier = M
 
 
             composable(route = TopLevelDestination.HomeDestination.name ){
-                HomeScreen()
+                HomeScreen(
+                    onNavigateToTLDClick = {
+                        navController.navigate(it.name)
+                    },
+
+                    title = TopLevelDestination.HomeDestination.titleTextId
+                )
             }
+
+
+        composable(route = TopLevelDestination.AllClassesDestination.name ){
+
+            Summary( title = TopLevelDestination.AllClassesDestination.titleTextId ,
+                onNavigateToTLDClick = {
+                    navController.navigate(it.name)
+                }
+            )
+
+        }
+
+
+        composable(route = TopLevelDestination.HistoryDestination.name ){
+            History( title = TopLevelDestination.HistoryDestination.titleTextId ,
+                onNavigateToTLDClick = {
+                    navController.navigate(it.name)
+                }
+            )
+        }
 
             composable(route = AttendanceScreen.ClassEntryDestination.name ){
                 TODO()
