@@ -1,7 +1,7 @@
 package com.example.myattendance.ui.navigation
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -11,13 +11,13 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +35,7 @@ enum class AttendanceScreen(@StringRes val title: Int) {
     ClassEntryDestination(R.string.add_class),
     ClassEditDestination(R.string.edit_class),
 }
+
 enum class TopLevelDestination(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
@@ -75,17 +76,29 @@ fun AttendanceNavHost(navController: NavHostController, modifier: Modifier = Mod
 
     Scaffold(
         topBar = { AttendanceTopAppBar(title = currentScreen.titleTextId) },
-        bottomBar = { MyBottomBar(onNavigateToTLDClick = {navController.navigate(it.name)})
+        bottomBar = {
+            MyBottomBar(
+                onNavigateToTLDClick = {
+                    navController.navigate(it.name) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                },
+                currentDestination = currentScreen
+            )
         }
-
     ) {
-
-       NavGraph(navController = navController , padding = it )
-
-
-
+        NavGraph(navController = navController, modifier = Modifier.padding(it))
     }
-
 
 
 }

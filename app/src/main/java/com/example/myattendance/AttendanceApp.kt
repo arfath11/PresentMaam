@@ -71,49 +71,50 @@ fun AttendanceTopAppBar(
 @Composable
 fun MyBottomBar(
     onNavigateToTLDClick: (TopLevelDestination) -> Unit,
-    //  currentDestination: NavDestination?,
+    currentDestination: TopLevelDestination,
     //  analyticsHelper: AnalyticsHelper
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
-    Surface(color = MaterialTheme.colorScheme.surface) {
+    Surface(color = MaterialTheme.colorScheme.onPrimary) {
         NavigationBar(
             modifier = Modifier.windowInsetsPadding(
                 WindowInsets.safeDrawing.only(
                     WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
                 )
             ),
-            //  tonalElevation = 0.dp
+            tonalElevation = 0.dp
         ) {
 
-            TopLevelDestination.values().forEach { destination ->
-                val selected = false       //   currentDestination?.hierarchy?.any { it.route == destination.route } == true
-                NavigationBarItem(
-                    selected = selected,
-                    onClick = {
-                        onNavigateToTLDClick(destination)
-                    },
-                    icon = {
-                        Icon(
-                            if (selected) {
-                                destination.selectedIcon
-                            } else {
-                                destination.unselectedIcon
-                            },
-                            contentDescription = null
-                        )
-                    },
-                    label = { Text(stringResource(destination.iconTextId)) }
-                )
-            }
+            TopLevelDestination.values()
+                               .forEach { destination ->
+                                   // NOW IN ANDROID APP IMPLEMENTED =   currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                                  val selected = currentDestination.name == destination.name
+                                  NavigationBarItem(
+                                      selected = selected,
+                                      onClick = {
+                                          onNavigateToTLDClick(destination)
+                                      },
+                                      icon = {
+                                          Icon(
+                                              if (selected) {
+                                                  destination.selectedIcon
+                                              } else {
+                                                  destination.unselectedIcon
+                                              },
+                                              contentDescription = null
+                                          )
+                                      },
+                                      label = { Text(stringResource(destination.iconTextId)) }
+                                  )
+                              }
         }
     }
 }
 @Preview(showBackground = true)
 @Composable
 fun MyBottomBarPreview(){
-
     MyAttendanceTheme(darkTheme = true){
-        MyBottomBar(onNavigateToTLDClick = {})
+        MyBottomBar(onNavigateToTLDClick = {} , currentDestination = TopLevelDestination.HomeDestination)
     }
 }

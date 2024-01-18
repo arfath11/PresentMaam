@@ -29,12 +29,9 @@ fun HomeScreen(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
 
 
     Scaffold(
-
       ) {
-
-        Text(text = "arfath" , modifier = modifier
-            .padding(it)
-            .padding(40.dp))
+        Text(text = "arfath" ,
+             modifier = modifier.padding(it))
     }
 
 }

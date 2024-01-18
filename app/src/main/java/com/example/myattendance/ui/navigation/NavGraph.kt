@@ -12,7 +12,9 @@ import com.example.myattendance.ui.home.HomeScreen
 import com.example.myattendance.ui.home.Summary
 
 @Composable
-fun NavGraph(navController: NavHostController , padding:PaddingValues ,modifier:Modifier = Modifier){
+fun NavGraph(navController: NavHostController,
+             modifier:Modifier = Modifier){
+
     NavHost(
         navController = navController,
         startDestination = TopLevelDestination.HomeDestination.name,
