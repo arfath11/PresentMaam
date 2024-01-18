@@ -25,31 +25,8 @@ fun History(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
 
 
     // Need to experiment with this scrool behaviour
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Text(text = "History" )
 
-    Scaffold(
-        //need to be experimented with this scrool behavoiur
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            AttendanceTopAppBar(
-                title = stringResource(title),
-                canNavigateBack = false,
-                scrollBehavior = scrollBehavior
-            )
-        },
-
-        bottomBar =  {
-
-            MyBottomBar(onNavigateToTLDClick =  { onNavigateToTLDClick(it) })
-        }
-
-
-    ) {
-
-
-        Text(text = "arfath" , modifier = modifier.padding(it).padding(40.dp))
-
-    }
 
 
 }

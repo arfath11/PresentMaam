@@ -4,6 +4,7 @@ package com.example.myattendance.ui.home
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,26 +27,14 @@ fun HomeScreen(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
                modifier: Modifier = Modifier,
                @StringRes title : Int ){
 
-    // Need to experiment with this Scroll behaviour
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
-        //need to be experimented with this Scroll behaviour
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            AttendanceTopAppBar(
-                title = stringResource(R.string.home_screen),
-            canNavigateBack = false,
-            scrollBehavior = scrollBehavior
-            )
-        },
 
-        bottomBar =  {
-            MyBottomBar(onNavigateToTLDClick =  { onNavigateToTLDClick(it) })
-        }) {
+      ) {
 
-
-        Text(text = "arfath" , modifier = modifier.padding(it).padding(40.dp))
-
+        Text(text = "arfath" , modifier = modifier
+            .padding(it)
+            .padding(40.dp))
     }
 
 }

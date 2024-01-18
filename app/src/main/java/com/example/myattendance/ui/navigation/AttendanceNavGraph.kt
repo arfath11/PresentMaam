@@ -1,6 +1,7 @@
 package com.example.myattendance.ui.navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -8,14 +9,21 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.myattendance.AttendanceTopAppBar
+import com.example.myattendance.MyBottomBar
 import com.example.myattendance.R
 import com.example.myattendance.ui.home.History
 import com.example.myattendance.ui.home.HomeScreen
@@ -54,48 +62,30 @@ enum class TopLevelDestination(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
 
-    NavHost(
-        navController = navController,
-        startDestination = TopLevelDestination.HomeDestination.name,
-        modifier = modifier
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    // currentScreen has default value of HomeDestination
+    val currentScreen: TopLevelDestination = TopLevelDestination.valueOf(
+        backStackEntry?.destination?.route ?: TopLevelDestination.HomeDestination.name
+    )
+
+
+    Scaffold(
+        topBar = { AttendanceTopAppBar(title = currentScreen.titleTextId) },
+        bottomBar = { MyBottomBar(onNavigateToTLDClick = {navController.navigate(it.name)})
+        }
+
     ) {
-        composable(route = TopLevelDestination.HomeDestination.name) {
-            HomeScreen(
-                onNavigateToTLDClick = {
-                    navController.navigate(it.name)
-                },
 
-                title = TopLevelDestination.HomeDestination.titleTextId
-            )
-        }
-        composable(route = TopLevelDestination.AllClassesDestination.name) {
-
-            Summary(title = TopLevelDestination.AllClassesDestination.titleTextId,
-                onNavigateToTLDClick = {
-                    navController.navigate(it.name)
-                }
-            )
-
-        }
-
-        composable(route = TopLevelDestination.HistoryDestination.name) {
-            History(title = TopLevelDestination.HistoryDestination.titleTextId,
-                onNavigateToTLDClick = {
-                    navController.navigate(it.name)
-                }
-            )
-        }
-
-        composable(route = AttendanceScreen.ClassEntryDestination.name) {
-            TODO()
-        }
+       NavGraph(navController = navController , padding = it )
 
 
-        composable(route = AttendanceScreen.ClassDetailDestination.name) {
-            TODO()
-        }
+
     }
+
+
+
 }
