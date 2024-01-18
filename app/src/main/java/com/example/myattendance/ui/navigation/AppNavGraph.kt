@@ -1,9 +1,7 @@
 package com.example.myattendance.ui.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,8 +10,10 @@ import com.example.myattendance.ui.home.HomeScreen
 import com.example.myattendance.ui.home.Summary
 
 @Composable
-fun NavGraph(navController: NavHostController,
-             modifier:Modifier = Modifier){
+fun AppNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
 
     NavHost(
         navController = navController,

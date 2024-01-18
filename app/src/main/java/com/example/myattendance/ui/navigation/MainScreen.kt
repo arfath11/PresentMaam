@@ -16,18 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myattendance.AttendanceTopAppBar
 import com.example.myattendance.MyBottomBar
 import com.example.myattendance.R
-import com.example.myattendance.ui.home.History
-import com.example.myattendance.ui.home.HomeScreen
-import com.example.myattendance.ui.home.Summary
 
 
 enum class AttendanceScreen(@StringRes val title: Int) {
@@ -97,7 +91,7 @@ fun AttendanceNavHost(navController: NavHostController, modifier: Modifier = Mod
             )
         }
     ) {
-        NavGraph(navController = navController, modifier = Modifier.padding(it))
+        AppNavGraph(navController = navController, modifier = Modifier.padding(it))
     }
 
 

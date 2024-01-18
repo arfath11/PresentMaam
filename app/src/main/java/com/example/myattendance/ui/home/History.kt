@@ -18,15 +18,15 @@ import com.example.myattendance.ui.navigation.TopLevelDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun History(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
-            modifier: Modifier = Modifier,
-            @StringRes title : Int
-){
+fun History(
+    onNavigateToTLDClick: (TopLevelDestination) -> Unit,
+    modifier: Modifier = Modifier,
+    @StringRes title: Int
+) {
 
 
     // Need to experiment with this scrool behaviour
-    Text(text = "History" )
-
+    Text(text = "History")
 
 
 }

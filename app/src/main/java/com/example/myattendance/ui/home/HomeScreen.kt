@@ -23,25 +23,25 @@ import com.example.myattendance.ui.theme.MyAttendanceTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
-               modifier: Modifier = Modifier,
-               @StringRes title : Int ){
-
-
+fun HomeScreen(
+    onNavigateToTLDClick: (TopLevelDestination) -> Unit,
+    modifier: Modifier = Modifier,
+    @StringRes title: Int
+) {
     Scaffold(
-      ) {
-        Text(text = "arfath" ,
-             modifier = modifier.padding(it))
+    ) {
+        Text(
+            text = "arfath",
+            modifier = modifier.padding(it)
+        )
     }
 
 }
 
-@Preview(showBackground = true )
+@Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview(){
-    MyAttendanceTheme(darkTheme = true){
-       // HomeScreen()
+fun HomeScreenPreview() {
+    MyAttendanceTheme(darkTheme = true) {
+        // HomeScreen()
     }
-
-
 }
