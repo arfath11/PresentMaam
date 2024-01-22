@@ -70,7 +70,7 @@ fun MyBottomBar(
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
-    Surface(color = MaterialTheme.colorScheme.onPrimary) {
+
         NavigationBar(
             modifier = Modifier.windowInsetsPadding(
                 WindowInsets.safeDrawing.only(
@@ -102,7 +102,7 @@ fun MyBottomBar(
                                         label = { Text(stringResource(destination.iconTextId)) }
                                     )
                                 }
-        }
+
     }
 }
 

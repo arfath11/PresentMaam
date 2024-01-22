@@ -67,7 +67,6 @@ fun AttendanceNavHost(navController: NavHostController, modifier: Modifier = Mod
         backStackEntry?.destination?.route ?: TopLevelDestination.HomeDestination.name
     )
 
-
     Scaffold(
         topBar = { AttendanceTopAppBar(title = currentScreen.titleTextId) },
         bottomBar = {
