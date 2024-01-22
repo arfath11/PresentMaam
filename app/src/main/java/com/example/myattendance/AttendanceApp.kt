@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -21,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myattendance.ui.navigation.AttendanceNavHost
@@ -46,7 +42,6 @@ fun AttendanceTopAppBar(
         title = { Text(stringResource(id = title)) },
         modifier = modifier,
         scrollBehavior = scrollBehavior,
-
         // Yet to be decided if i need to include the below feature .
 //        navigationIcon = {
 //            if (canNavigateBack) {
@@ -71,37 +66,38 @@ fun MyBottomBar(
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
 
-        NavigationBar(
-            modifier = Modifier.windowInsetsPadding(
-                WindowInsets.safeDrawing.only(
-                    WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
+    NavigationBar(
+        modifier = Modifier.windowInsetsPadding(
+                   WindowInsets
+                       .safeDrawing
+                       .only(
+                WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
+                   )
+        ),
+        tonalElevation = 0.dp
+    ) {
+        TopLevelDestination.values()
+            .forEach { destination ->
+                // NOW IN ANDROID APP IMPLEMENTED =   currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                val selected = currentDestination.name == destination.name
+                NavigationBarItem(
+                    selected = selected,
+                    onClick = {
+                        onNavigateToTLDClick(destination)
+                    },
+                    icon = {
+                        Icon(
+                            if (selected) {
+                                destination.selectedIcon
+                            } else {
+                                destination.unselectedIcon
+                            },
+                            contentDescription = null
+                        )
+                    },
+                    label = { Text(stringResource(destination.iconTextId)) }
                 )
-            ),
-            tonalElevation = 0.dp
-        ) {
-
-            TopLevelDestination.values()
-                                .forEach { destination ->
-                                    // NOW IN ANDROID APP IMPLEMENTED =   currentDestination?.hierarchy?.any { it.route == destination.route } == true
-                                    val selected = currentDestination.name == destination.name
-                                    NavigationBarItem(
-                                        selected = selected,
-                                        onClick = {
-                                            onNavigateToTLDClick(destination)
-                                        },
-                                        icon = {
-                                            Icon(
-                                                if (selected) {
-                                                    destination.selectedIcon
-                                                } else {
-                                                    destination.unselectedIcon
-                                                },
-                                                contentDescription = null
-                                            )
-                                        },
-                                        label = { Text(stringResource(destination.iconTextId)) }
-                                    )
-                                }
+            }
 
     }
 }

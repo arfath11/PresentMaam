@@ -14,7 +14,6 @@ fun AppNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-
     NavHost(
         navController = navController,
         startDestination = TopLevelDestination.HomeDestination.name,
@@ -29,6 +28,7 @@ fun AppNavGraph(
                 title = TopLevelDestination.HomeDestination.titleTextId
             )
         }
+
         composable(route = TopLevelDestination.AllClassesDestination.name) {
 
             Summary(title = TopLevelDestination.AllClassesDestination.titleTextId,
@@ -50,7 +50,6 @@ fun AppNavGraph(
         composable(route = AttendanceScreen.ClassEntryDestination.name) {
             TODO()
         }
-
 
         composable(route = AttendanceScreen.ClassDetailDestination.name) {
             TODO()

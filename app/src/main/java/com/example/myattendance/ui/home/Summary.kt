@@ -20,16 +20,6 @@ import com.example.myattendance.ui.navigation.TopLevelDestination
 fun Summary(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
             modifier: Modifier = Modifier,
             @StringRes title : Int ){
-
-
-
-    Text(text = "Summary" )
-
-
-
-
-
-
-
-
+    Text(text = "To be implemented" )
+    TODO()
 }

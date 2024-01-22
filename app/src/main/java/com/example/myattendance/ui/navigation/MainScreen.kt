@@ -11,7 +11,6 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -45,7 +44,7 @@ enum class TopLevelDestination(
     AllClassesDestination(
         selectedIcon = Icons.Filled.List,
         unselectedIcon = Icons.Outlined.List,
-        iconTextId = R.string.all_Class,
+        iconTextId = R.string.summary,
         titleTextId = R.string.all_class,
     ),
     HistoryDestination(
