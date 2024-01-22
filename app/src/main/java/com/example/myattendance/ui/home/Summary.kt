@@ -21,5 +21,5 @@ fun Summary(onNavigateToTLDClick: (TopLevelDestination) -> Unit,
             modifier: Modifier = Modifier,
             @StringRes title : Int ){
     Text(text = "To be implemented" )
-    TODO()
+//    TODO()
 }
