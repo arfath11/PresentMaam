@@ -141,7 +141,7 @@ fun DateHeader(
                 .weight(1f)
                 .align(Alignment.CenterVertically),
             text = if (data.selectedDate.isToday) {
-                stringResource(R.string.summary)
+                stringResource(R.string.today)
             } else {
                 data.selectedDate.date.toFormattedMonthDateString()
             },
