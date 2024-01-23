@@ -9,5 +9,6 @@
     <string name="class_detail">Info</string>
     <string name="home_bar">home</string>
     <string name="summary">Summary</string>
+    <string name="today">Today</string>
     <string name="barhistory">history</string>
 </resources>
