@@ -56,7 +56,7 @@ fun HomeScreen(
     ) {
         Column(
             modifier = Modifier.padding(it),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             // DailyMedications(navController, analyticsHelper, state, viewModel, navigateToMedicationDetail)
             DatesHeader({})

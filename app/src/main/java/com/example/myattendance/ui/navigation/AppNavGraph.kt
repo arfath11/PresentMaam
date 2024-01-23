@@ -24,13 +24,11 @@ fun AppNavGraph(
                 onNavigateToTLDClick = {
                     navController.navigate(it.name)
                 },
-
                 title = TopLevelDestination.HomeDestination.titleTextId
             )
         }
 
         composable(route = TopLevelDestination.AllClassesDestination.name) {
-
             Summary(title = TopLevelDestination.AllClassesDestination.titleTextId,
                 onNavigateToTLDClick = {
                     navController.navigate(it.name)
@@ -48,11 +46,11 @@ fun AppNavGraph(
         }
 
         composable(route = AttendanceScreen.ClassEntryDestination.name) {
-            TODO()
+           // TODO()
         }
 
         composable(route = AttendanceScreen.ClassDetailDestination.name) {
-            TODO()
+           // TODO()
         }
     }
 
