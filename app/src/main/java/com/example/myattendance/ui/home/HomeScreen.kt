@@ -61,7 +61,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             // DailyMedications(navController, analyticsHelper, state, viewModel, navigateToMedicationDetail)
-            DatesHeader({})
+            DatesHeader{ }
         }
     }
 }
@@ -239,6 +239,8 @@ fun DateItem(
         }
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
