@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,7 @@ import com.example.myattendance.feature.home.data.CalendarModel
 import com.example.myattendance.feature.home.data.toFormattedDateShortString
 import com.example.myattendance.feature.home.data.toFormattedDateString
 import com.example.myattendance.feature.home.data.toFormattedMonthDateString
+import com.example.myattendance.ui.item.IteamEntryScreen
 import com.example.myattendance.ui.navigation.TopLevelDestination
 import com.example.myattendance.ui.theme.MyAttendanceTheme
 import java.util.Calendar
@@ -53,19 +55,26 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     @StringRes title: Int
 ) {
+    // to hold state of BottomSheet
+    var isSheetOpen = rememberSaveable {
+        mutableStateOf(false)
+    }
     Scaffold(
-        floatingActionButton =  {AppFAB{}},
+        floatingActionButton = { AppFAB { isSheetOpen.value = true } },
     ) {
         Column(
             modifier = Modifier.padding(it),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            // DailyMedications(navController, analyticsHelper, state, viewModel, navigateToMedicationDetail)
-            DatesHeader{ }
+            DatesHeader { }
+            //BottomSheet to add/edit elements , Triggered on floatingActionButton
+            IteamEntryScreen(isSheetOpen = isSheetOpen)
         }
     }
 }
 
+
+// Scrollable dates  for the user to select from
 @Composable
 fun DatesHeader(
     //  analyticsHelper: AnalyticsHelper,
@@ -149,14 +158,14 @@ fun DateHeader(
             },
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-           // color = MaterialTheme.colorScheme.tertiary
+            // color = MaterialTheme.colorScheme.tertiary
         )
         IconButton(onClick = {
             onPrevClickListener(data.startDate.date)
         }) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowLeft,
-               // tint = MaterialTheme.colorScheme.tertiary,
+                // tint = MaterialTheme.colorScheme.tertiary,
                 contentDescription = "Back"
             )
         }
@@ -165,7 +174,7 @@ fun DateHeader(
         }) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
-             //   tint = MaterialTheme.colorScheme.tertiary,
+                //   tint = MaterialTheme.colorScheme.tertiary,
                 contentDescription = "Next"
             )
         }
@@ -239,7 +248,6 @@ fun DateItem(
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
