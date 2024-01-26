@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myattendance.AppFAB
 import com.example.myattendance.R
 import com.example.myattendance.feature.home.data.CalendarDataSource
 import com.example.myattendance.feature.home.data.CalendarModel
@@ -53,6 +54,7 @@ fun HomeScreen(
     @StringRes title: Int
 ) {
     Scaffold(
+        floatingActionButton =  {AppFAB{}},
     ) {
         Column(
             modifier = Modifier.padding(it),
@@ -134,7 +136,7 @@ fun DateHeader(
     onNextClickListener: (Date) -> Unit
 ) {
     Row(
-        modifier = Modifier.padding(vertical = 16.dp),
+        modifier = Modifier.padding(vertical = 8.dp),
     ) {
         Text(
             modifier = Modifier
@@ -147,14 +149,14 @@ fun DateHeader(
             },
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.tertiary
+           // color = MaterialTheme.colorScheme.tertiary
         )
         IconButton(onClick = {
             onPrevClickListener(data.startDate.date)
         }) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowLeft,
-                tint = MaterialTheme.colorScheme.tertiary,
+               // tint = MaterialTheme.colorScheme.tertiary,
                 contentDescription = "Back"
             )
         }
@@ -163,7 +165,7 @@ fun DateHeader(
         }) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = MaterialTheme.colorScheme.tertiary,
+             //   tint = MaterialTheme.colorScheme.tertiary,
                 contentDescription = "Next"
             )
         }
