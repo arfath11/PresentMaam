@@ -2,38 +2,31 @@ package com.example.myattendance.ui.home
 
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -48,9 +41,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,7 +53,8 @@ import com.example.myattendance.feature.home.data.CalendarModel
 import com.example.myattendance.feature.extension.toFormattedDateShortString
 import com.example.myattendance.feature.extension.toFormattedDateString
 import com.example.myattendance.feature.extension.toFormattedMonthDateString
-import com.example.myattendance.model.Subject
+import com.example.myattendance.model.AttendanceStatus
+import com.example.myattendance.model.Lesson
 import com.example.myattendance.ui.item.IteamEntryScreen
 import com.example.myattendance.ui.navigation.TopLevelDestination
 import com.example.myattendance.ui.theme.MyAttendanceTheme
@@ -86,7 +78,7 @@ fun HomeScreen(
     ) {
         Column(
             modifier = Modifier.padding(it),
-          //  verticalArrangement = Arrangement.spacedBy(2.dp)
+            //  verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             DatesHeader { }
             LessonList(subjectList = createRandomSubjects())
@@ -99,67 +91,56 @@ fun HomeScreen(
 
 
 @Composable
-fun LessonList(modifier: Modifier = Modifier,
-               subjectList: List<Subject>) {
+fun LessonList(
+    modifier: Modifier = Modifier,
+    subjectList: List<Lesson>
+) {
 
-//    val visibleState = remember {
-//        MutableTransitionState(false).apply {
-//            // Start the animation immediately.
-//            targetState = true
-//        }
-//    }
-//    AnimatedVisibility(
-//        visibleState = visibleState,
-//        enter = fadeIn(
-//            animationSpec = spring(dampingRatio = DampingRatioLowBouncy)
-//        ),
-//        exit = fadeOut(),
-//        modifier = modifier
-//    )
-//    {
-      Column (  modifier = Modifier.verticalScroll(rememberScrollState())
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
-      ){
+        subjectList.forEach { subject ->
+            LessonItem(
+                subject = subject,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
 
-          subjectList.forEach {subject ->  SubjectItem(subject = subject ,  modifier =Modifier.padding(horizontal = 16.dp , vertical = 8.dp))  }
-
-      }
-
+    }
 
 
 }
 
 
 @Composable
-fun SubjectItem(subject: Subject, modifier: Modifier = Modifier){
+fun LessonItem(subject: Lesson, modifier: Modifier = Modifier) {
+
     val progressBarColor = if (subject.attendancePer < 0.75) Color.Red else Color.Green
-
     var expanded by remember { mutableStateOf(false) }
-
     val color by animateColorAsState(
-        targetValue = if (!expanded) MaterialTheme.colorScheme.tertiaryContainer
+        targetValue = if (expanded) MaterialTheme.colorScheme.tertiaryContainer
         else MaterialTheme.colorScheme.primaryContainer,
         label = "",
     )
 
     Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = modifier.animateContentSize(animationSpec = spring(
-            dampingRatio = Spring.DampingRatioNoBouncy,
-            stiffness = Spring.StiffnessMedium
-        )),
-        colors = CardDefaults.cardColors(containerColor = color) ,
-
-
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = modifier.animateContentSize(
+                         animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioNoBouncy,
+                            stiffness = Spring.StiffnessMedium
+                           )
+                        ),
+        colors = CardDefaults.cardColors(containerColor = color),
         ) {
+
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-            //    .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            Column(modifier = Modifier.weight(1f),
-               verticalArrangement = Arrangement.spacedBy(8.dp)
-
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
                     text = subject.name,
@@ -167,32 +148,77 @@ fun SubjectItem(subject: Subject, modifier: Modifier = Modifier){
                 )
                 Text(
                     text = "${(subject.attendancePer * 100).toInt()}%",
-                    style = MaterialTheme.typography.titleMedium ,
-                    color =  progressBarColor
-
-                )
-                LinearProgressIndicator(
-                    progress = subject.attendancePer ,  // convert it to a value between 0.0 and 1.0
-                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.titleMedium,
                     color = progressBarColor
                 )
             }
-            Spacer(Modifier.width(16.dp))
-            Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .clip(RoundedCornerShape(8.dp))
+            DropDownButton(expanded = expanded, onClick = { expanded = !expanded })
+        }
 
-            ) {
-//                Image(
-//                    painter = painterResource(hero.imageRes),
-//                    contentDescription = null,
-//                    alignment = Alignment.TopCenter,
-//                    contentScale = ContentScale.FillWidth
-//                )
-            }
+        LinearProgressIndicator(
+            progress = subject.attendancePer,
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
+                .fillMaxWidth(),
+            color = progressBarColor
+        )
+        //To select if PRESENT , ABSENT or UNMARKED
+        if (expanded) {
+            LessonAttendanceStatus(modifier = Modifier.padding(16.dp))
         }
     }
+}
+
+@Composable
+fun LessonAttendanceStatus(modifier: Modifier = Modifier) {
+    Row (modifier = modifier.fillMaxWidth() ,horizontalArrangement  =  Arrangement.SpaceAround) {
+
+        AttendanceStatus.values()
+                         .forEach {
+                             StatusFilterChip(onClick = it.onClick, label =  it.label ,initiallySelected = it.initialSelected)
+                         }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StatusFilterChip(modifier: Modifier = Modifier,
+                     initiallySelected: Boolean ,
+                     onClick: () -> Unit ,
+                     label: String){
+
+    var selected by remember{ mutableStateOf(initiallySelected) }
+    FilterChip(selected = selected ,
+               onClick = {
+                           onClick()
+                           selected = !selected
+                        },
+              label = { Text(text = label) })
+
+}
+
+@Composable
+fun DropDownButton(
+    expanded: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+
+            imageVector = if (!expanded) Icons.Filled.ExpandMore else Icons.Filled.ExpandLess,
+            contentDescription = stringResource(R.string.expand_button_lesson_status),
+            tint = MaterialTheme.colorScheme.secondary
+        )
+
+
+    }
+
 }
 
 // Scrollable dates  for the user to select from
@@ -370,19 +396,29 @@ fun DateItem(
     }
 }
 
-fun createRandomSubjects(): List<Subject> {
-    val subjectNames = listOf("Math", "English", "Science", "History", "Computer Science", "Physics", "Chemistry", "Biology")
+fun createRandomSubjects(): List<Lesson> {
+    val subjectNames = listOf(
+        "Math",
+        "English",
+        "Science",
+        "History",
+        "Computer Science",
+        "Physics",
+        "Chemistry",
+        "Biology"
+    )
 
     return subjectNames.map {
-        val       numberOfPresent = Random.nextInt(1, 25)
+        val numberOfPresent = Random.nextInt(1, 25)
 
-        Subject(
+        Lesson(
             name = it,
             numberOfPresent = numberOfPresent,
-            totalClasses =  Random.nextInt(numberOfPresent, 30)
+            totalClasses = Random.nextInt(numberOfPresent, 30)
         )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
@@ -394,15 +430,32 @@ fun HomeScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun LessonListPreview(){
+fun LessonListPreview() {
     MyAttendanceTheme(darkTheme = true) {
-    LessonList(subjectList = createRandomSubjects())
+        LessonList(subjectList = createRandomSubjects())
 //        SubjectItem(subject = Subject(
 //            name = "Math",
 //            numberOfPresent = 20,
 //            totalClasses = 20
 //        )
 //        )
+    }
+
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun LessonListItemPreview() {
+    MyAttendanceTheme(darkTheme = true) {
+
+        LessonItem(
+            subject = Lesson(
+                name = "Math",
+                numberOfPresent = 20,
+                totalClasses = 20
+            )
+        )
     }
 
 }
