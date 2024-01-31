@@ -117,8 +117,8 @@ fun LessonItem(subject: Lesson, modifier: Modifier = Modifier) {
     val progressBarColor = if (subject.attendancePer < 0.75) Color.Red else Color.Green
     var expanded by remember { mutableStateOf(false) }
     val color by animateColorAsState(
-        targetValue = if (expanded) MaterialTheme.colorScheme.tertiaryContainer
-        else MaterialTheme.colorScheme.primaryContainer,
+        targetValue = if (expanded) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.surface,
         label = "",
     )
 
@@ -431,7 +431,7 @@ fun HomeScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun LessonListPreview() {
-    MyAttendanceTheme(darkTheme = true) {
+    MyAttendanceTheme(darkTheme = false) {
         LessonList(subjectList = createRandomSubjects())
 //        SubjectItem(subject = Subject(
 //            name = "Math",
