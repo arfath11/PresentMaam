@@ -4,6 +4,14 @@ PresentMa'am is an attendance tracking app designed to streamline the process of
 
 
 
+### Screens
+<p align="center">
+<img src="https://github.com/arfath11/PresentMaam/assets/74487575/2c0b9ba0-5cc7-4902-954b-7cc798c92468" width="17%"/>
+<img src="https://github.com/arfath11/PresentMaam/assets/74487575/f2afc5aa-0bcf-4b63-b8fb-a2919063f770" width="17%"/>
+<img src="https://github.com/arfath11/PresentMaam/assets/74487575/b72117e0-59d4-40a1-8bf7-7b0f857dee61" width="17%"/>
+</p>
+
+
 ## Tech Stack
 
 - **Jetpack Compose** 
