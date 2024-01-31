@@ -55,7 +55,7 @@ import com.example.myattendance.feature.extension.toFormattedDateString
 import com.example.myattendance.feature.extension.toFormattedMonthDateString
 import com.example.myattendance.model.AttendanceStatus
 import com.example.myattendance.model.Lesson
-import com.example.myattendance.ui.item.IteamEntryScreen
+import com.example.myattendance.ui.itemlesson.AttendanceBottomSheet
 import com.example.myattendance.ui.navigation.TopLevelDestination
 import com.example.myattendance.ui.theme.MyAttendanceTheme
 import java.util.Calendar
@@ -84,7 +84,9 @@ fun HomeScreen(
             LessonList(subjectList = createRandomSubjects())
 
             //BottomSheet to add/edit elements , Triggered on floatingActionButton
-            IteamEntryScreen(isSheetOpen = isSheetOpen)
+           // LessonEntryScreen(isSheetOpen = isSheetOpen)
+            if (isSheetOpen.value)
+                AttendanceBottomSheet{ isSheetOpen.value = false }
         }
     }
 }
