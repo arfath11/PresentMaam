@@ -2,9 +2,9 @@
     <string name="app_name">My Attendance</string>
     <string name="back_button">Back Button</string>
     <string name="home_screen">Today</string>
-    <string name="add_class">Add Class</string>
-    <string name="edit_class">Edit Class</string>
-    <string name="all_class">All Classes</string>
+    <string name="add_subject">Add Subject</string>
+    <string name="edit_subject">Edit Subject</string>
+    <string name="all_subjects">All Subjects</string>
     <string name="history">History</string>
     <string name="class_detail">Info</string>
     <string name="home_bar">home</string>
@@ -12,4 +12,6 @@
     <string name="today">Today</string>
     <string name="barhistory">history</string>
     <string name="expand_button_lesson_status">Select wheather the lesson was attended or missed , no marked</string>
+    <string name="subject_name">Subject Name</string>
+    <string name="min_attendnce">Min %</string>
 </resources>
