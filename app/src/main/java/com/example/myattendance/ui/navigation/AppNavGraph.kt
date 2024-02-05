@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.myattendance.ui.home.History
+import com.example.myattendance.ui.history.History
 import com.example.myattendance.ui.home.HomeScreen
-import com.example.myattendance.ui.home.Summary
+import com.example.myattendance.ui.summary.Summary
 
 @Composable
 fun AppNavGraph(

@@ -1,4 +1,4 @@
-package com.example.myattendance.ui.home
+package com.example.myattendance.ui.history
 
 import androidx.annotation.StringRes
 import androidx.compose.material3.ExperimentalMaterial3Api
