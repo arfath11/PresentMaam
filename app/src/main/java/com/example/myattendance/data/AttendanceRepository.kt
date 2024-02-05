@@ -4,6 +4,7 @@ interface AttendanceRepository {
     suspend fun getTodaysClasses()
     suspend fun getAllClasses()
     suspend fun getClass()
+
 }
 
 class LocalAttendanceRepository : AttendanceRepository {
