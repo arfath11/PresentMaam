@@ -17,6 +17,6 @@ data class CalendarModel(
         val isSelected: Boolean,
         val isToday: Boolean
     ) {
-        val day: String = SimpleDateFormat("E", Locale.getDefault()).format(date) ?: "" // "Mon", "Tue", "Wed", etc.
+        val day: String = SimpleDateFormat("E", Locale.getDefault()).format(date) ?: ""
     }
 }

@@ -11,5 +11,4 @@
     <string name="summary">Summary</string>
     <string name="today">Today</string>
     <string name="barhistory">history</string>
-    <string name="expand_button_lesson_status">Select wheather the lesson was attended or missed , no marked</string>
 </resources>
