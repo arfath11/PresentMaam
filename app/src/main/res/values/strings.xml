@@ -14,4 +14,8 @@
     <string name="expand_button_lesson_status">Select wheather the lesson was attended or missed , no marked</string>
     <string name="subject_name">Subject Name</string>
     <string name="min_attendnce">Min %</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
 </resources>
