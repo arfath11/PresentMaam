@@ -243,6 +243,6 @@ fun DateItem(
 fun HomeScreenPreview() {
     MyAttendanceTheme(darkTheme = false) {
         // HomeScreen()
-        DatesHeader({})
+        DatesHeader{}
     }
 }
