@@ -1,6 +1,5 @@
 package com.example.myattendance.ui.home
 
-
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -171,6 +170,9 @@ fun LessonItem(subject: Lesson, modifier: Modifier = Modifier) {
     }
 }
 
+
+
+// Shows if present absent or unmarked
 @Composable
 fun LessonAttendanceStatus(modifier: Modifier = Modifier) {
     Row (modifier = modifier.fillMaxWidth() ,horizontalArrangement  =  Arrangement.SpaceAround) {
