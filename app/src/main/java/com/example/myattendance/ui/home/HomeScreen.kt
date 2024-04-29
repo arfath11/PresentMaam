@@ -2,6 +2,10 @@ package com.example.myattendance.ui.home
 
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,14 +16,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,23 +37,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myattendance.AppFAB
 import com.example.myattendance.R
 import com.example.myattendance.feature.home.data.CalendarDataSource
 import com.example.myattendance.feature.home.data.CalendarModel
-import com.example.myattendance.feature.home.data.toFormattedDateShortString
-import com.example.myattendance.feature.home.data.toFormattedDateString
-import com.example.myattendance.feature.home.data.toFormattedMonthDateString
+import com.example.myattendance.feature.extension.toFormattedDateShortString
+import com.example.myattendance.feature.extension.toFormattedDateString
+import com.example.myattendance.feature.extension.toFormattedMonthDateString
+import com.example.myattendance.model.AttendanceStatus
+import com.example.myattendance.model.Lesson
+import com.example.myattendance.ui.itemlesson.AttendanceBottomSheet
 import com.example.myattendance.ui.navigation.TopLevelDestination
 import com.example.myattendance.ui.theme.MyAttendanceTheme
 import java.util.Calendar
 import java.util.Date
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,18 +69,161 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     @StringRes title: Int
 ) {
+    // to hold state of BottomSheet
+    var isSheetOpen = rememberSaveable {
+        mutableStateOf(false)
+    }
     Scaffold(
+        floatingActionButton = { AppFAB { isSheetOpen.value = true } },
     ) {
         Column(
             modifier = Modifier.padding(it),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            //  verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            // DailyMedications(navController, analyticsHelper, state, viewModel, navigateToMedicationDetail)
-            DatesHeader({})
+            DatesHeader { }
+            LessonList(subjectList = createRandomSubjects())
+
+            //BottomSheet to add/edit elements , Triggered on floatingActionButton
+           // LessonEntryScreen(isSheetOpen = isSheetOpen)
+            if (isSheetOpen.value)
+                AttendanceBottomSheet{ isSheetOpen.value = false }
         }
     }
 }
 
+
+@Composable
+fun LessonList(
+    modifier: Modifier = Modifier,
+    subjectList: List<Lesson>
+) {
+
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+
+        subjectList.forEach { subject ->
+            LessonItem(
+                subject = subject,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+
+    }
+
+
+}
+
+
+@Composable
+fun LessonItem(subject: Lesson, modifier: Modifier = Modifier) {
+
+    val progressBarColor = if (subject.attendancePer < 0.75) Color.Red else Color.Green
+    var expanded by remember { mutableStateOf(false) }
+    val color by animateColorAsState(
+        targetValue = if (expanded) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.surface,
+        label = "",
+    )
+
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = modifier.animateContentSize(
+                         animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioNoBouncy,
+                            stiffness = Spring.StiffnessMedium
+                           )
+                        ),
+        colors = CardDefaults.cardColors(containerColor = color),
+        ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = subject.name,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Text(
+                    text = "${(subject.attendancePer * 100).toInt()}%",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = progressBarColor
+                )
+            }
+            DropDownButton(expanded = expanded, onClick = { expanded = !expanded })
+        }
+
+        LinearProgressIndicator(
+            progress = subject.attendancePer,
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
+                .fillMaxWidth(),
+            color = progressBarColor
+        )
+        //To select if PRESENT , ABSENT or UNMARKED
+        if (expanded) {
+            LessonAttendanceStatus(modifier = Modifier.padding(16.dp))
+        }
+    }
+}
+
+@Composable
+fun LessonAttendanceStatus(modifier: Modifier = Modifier) {
+    Row (modifier = modifier.fillMaxWidth() ,horizontalArrangement  =  Arrangement.SpaceAround) {
+
+        AttendanceStatus.values()
+                         .forEach {
+                             StatusFilterChip(onClick = it.onClick, label =  it.label ,initiallySelected = it.initialSelected)
+                         }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StatusFilterChip(modifier: Modifier = Modifier,
+                     initiallySelected: Boolean ,
+                     onClick: () -> Unit ,
+                     label: String){
+
+    var selected by remember{ mutableStateOf(initiallySelected) }
+    FilterChip(selected = selected ,
+               onClick = {
+                           onClick()
+                           selected = !selected
+                        },
+              label = { Text(text = label) })
+
+}
+
+@Composable
+fun DropDownButton(
+    expanded: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+
+            imageVector = if (!expanded) Icons.Filled.ExpandMore else Icons.Filled.ExpandLess,
+            contentDescription = stringResource(R.string.expand_button_lesson_status),
+            tint = MaterialTheme.colorScheme.secondary
+        )
+
+
+    }
+
+}
+
+// Scrollable dates  for the user to select from
 @Composable
 fun DatesHeader(
     //  analyticsHelper: AnalyticsHelper,
@@ -134,7 +294,7 @@ fun DateHeader(
     onNextClickListener: (Date) -> Unit
 ) {
     Row(
-        modifier = Modifier.padding(vertical = 16.dp),
+        modifier = Modifier.padding(vertical = 8.dp),
     ) {
         Text(
             modifier = Modifier
@@ -147,14 +307,14 @@ fun DateHeader(
             },
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.tertiary
+            // color = MaterialTheme.colorScheme.tertiary
         )
         IconButton(onClick = {
             onPrevClickListener(data.startDate.date)
         }) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowLeft,
-                tint = MaterialTheme.colorScheme.tertiary,
+                // tint = MaterialTheme.colorScheme.tertiary,
                 contentDescription = "Back"
             )
         }
@@ -163,7 +323,7 @@ fun DateHeader(
         }) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = MaterialTheme.colorScheme.tertiary,
+                //   tint = MaterialTheme.colorScheme.tertiary,
                 contentDescription = "Next"
             )
         }
@@ -238,6 +398,29 @@ fun DateItem(
     }
 }
 
+fun createRandomSubjects(): List<Lesson> {
+    val subjectNames = listOf(
+        "Math",
+        "English",
+        "Science",
+        "History",
+        "Computer Science",
+        "Physics",
+        "Chemistry",
+        "Biology"
+    )
+
+    return subjectNames.map {
+        val numberOfPresent = Random.nextInt(1, 25)
+
+        Lesson(
+            name = it,
+            numberOfPresent = numberOfPresent,
+            totalClasses = Random.nextInt(numberOfPresent, 30)
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
@@ -245,4 +428,36 @@ fun HomeScreenPreview() {
         // HomeScreen()
         DatesHeader({})
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LessonListPreview() {
+    MyAttendanceTheme(darkTheme = false) {
+        LessonList(subjectList = createRandomSubjects())
+//        SubjectItem(subject = Subject(
+//            name = "Math",
+//            numberOfPresent = 20,
+//            totalClasses = 20
+//        )
+//        )
+    }
+
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun LessonListItemPreview() {
+    MyAttendanceTheme(darkTheme = true) {
+
+        LessonItem(
+            subject = Lesson(
+                name = "Math",
+                numberOfPresent = 20,
+                totalClasses = 20
+            )
+        )
+    }
+
 }
