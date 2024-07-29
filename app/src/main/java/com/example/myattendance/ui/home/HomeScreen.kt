@@ -52,8 +52,8 @@ import com.example.myattendance.feature.home.data.CalendarModel
 import com.example.myattendance.feature.extension.toFormattedDateShortString
 import com.example.myattendance.feature.extension.toFormattedDateString
 import com.example.myattendance.feature.extension.toFormattedMonthDateString
-import com.example.myattendance.model.AttendanceStatus
-import com.example.myattendance.model.Lesson
+import com.example.myattendance.domain.model.AttendanceStatus
+import com.example.myattendance.domain.model.Lesson
 import com.example.myattendance.ui.itemlesson.AttendanceBottomSheet
 import com.example.myattendance.ui.navigation.TopLevelDestination
 import com.example.myattendance.ui.theme.MyAttendanceTheme
@@ -179,7 +179,7 @@ fun LessonAttendanceStatus(modifier: Modifier = Modifier) {
 
         AttendanceStatus.values()
                          .forEach {
-                             StatusFilterChip(onClick = it.onClick, label =  it.label ,initiallySelected = it.initialSelected)
+                             StatusFilterChip(onClick = { }  , label = it.toString(),initiallySelected = true)
                          }
     }
 }

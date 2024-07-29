@@ -62,6 +62,8 @@ fun AttendanceBottomSheet(onDismissRequest: () -> Unit) {
 
 }
 
+
+// Enter the lessonItem 
 @Composable
 fun ItemEntry(modifier: Modifier= Modifier) {
 
@@ -89,7 +91,7 @@ fun ItemEntry(modifier: Modifier= Modifier) {
                // .size(400.dp),
         ){
 
-            //To Enter Subject percentage
+            //To Enter Name of the  Subject
             EditNumberField(
                 label = R.string.subject_name,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -115,7 +117,7 @@ fun ItemEntry(modifier: Modifier= Modifier) {
             )
         }
 
-
+           // TO enter the start and end date
             LessonDateTextField(endDate = {},
                                 label = R.string.start_date,
                                 modifier = Modifier.padding(bottom = 32.dp)
