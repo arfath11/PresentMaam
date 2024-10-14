@@ -16,7 +16,6 @@ PresentMa'am is an attendance tracking app designed to streamline the process of
 
 - **Jetpack Compose** 
 - **MVVM Architecture** 
-- **Hilt**
 - **Room Database**
 - **Material 3**
 - **Coroutines + Flow** 
