@@ -25,8 +25,8 @@ import com.example.myattendance.R
 
 enum class AttendanceScreen(@StringRes val title: Int) {
     ClassDetailDestination(R.string.class_detail),
-    ClassEntryDestination(R.string.add_class),
-    ClassEditDestination(R.string.edit_class),
+    ClassEntryDestination(R.string.add_subject),
+    ClassEditDestination(R.string.edit_subject),
 }
 
 enum class TopLevelDestination(
@@ -45,7 +45,7 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Filled.List,
         unselectedIcon = Icons.Outlined.List,
         iconTextId = R.string.summary,
-        titleTextId = R.string.all_class,
+        titleTextId = R.string.all_subjects,
     ),
     HistoryDestination(
         selectedIcon = Icons.Filled.DateRange,
